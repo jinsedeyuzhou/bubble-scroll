@@ -10,7 +10,9 @@ import java.util.List;
 import cdflynn.android.library.scroller.SectionScrollAdapter;
 
 public class ContactScrollerAdapter implements SectionScrollAdapter {
-
+    private String[] letters = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I",
+            "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+            "W", "X", "Y", "Z", "#"};
     private List<Contact> mContacts;
     private List<Section> mSections;
 
@@ -70,6 +72,11 @@ public class ContactScrollerAdapter implements SectionScrollAdapter {
         String sectionTitle = null;
         Contact contact;
         int itemCount = 0;
+        for (int i=0;i<letters.length;i++)
+        {
+            mSections.add(new Section(i , letters[i], 1));
+
+        }
         for (int i = 0; i < mContacts.size(); i++) {
             contact = mContacts.get(i);
             String firstLetter = contact.getFirstName().substring(0, 1);

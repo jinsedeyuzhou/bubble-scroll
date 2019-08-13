@@ -20,12 +20,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     private List<Contact> mContacts;
     private LayoutInflater mInflater;
-    private ContactScrollerAdapter mContactScrollerAdapter;
+//    private ContactScrollerAdapter mContactScrollerAdapter;
 
-    public ContactAdapter(Context c, List<Contact> contacts, ContactScrollerAdapter contactScrollerAdapter) {
+    public ContactAdapter(Context c, List<Contact> contacts) {
         mContacts = contacts;
         mInflater = LayoutInflater.from(c);
-        mContactScrollerAdapter = contactScrollerAdapter;
+//        mContactScrollerAdapter = contactScrollerAdapter;
     }
 
     @Override
@@ -39,14 +39,26 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         Contact contact = mContacts.get(position);
         holder.pic.setImageDrawable(contact.getProfileImage());
         holder.mName.setText(String.format(Locale.US, NAME_FORMAT, contact.getFirstName(), contact.getLastName()));
-        Section s = mContactScrollerAdapter.fromItemIndex(position);
-        if (s.getIndex() == position) {
-            holder.title.setText(s.getTitle());
+//        Section s = mContactScrollerAdapter.fromItemIndex(position);
+        String catalog = mContacts.get(position).getFirstName().substring(0,1);
+        if (position == getPositionForSection(catalog)) {
+            holder.title.setText(catalog);
         } else {
             holder.title.setText("");
         }
     }
-
+    /**
+     * 获取catalog首次出现位置
+     */
+    public int getPositionForSection(String catalog) {
+        for (int i = 0; i < getItemCount(); i++) {
+            String sortStr = mContacts.get(i).getFirstName().substring(0,1);
+            if (catalog.equalsIgnoreCase(sortStr)) {
+                return i;
+            }
+        }
+        return -1;
+    }
     @Override
     public int getItemCount() {
         return mContacts.size();

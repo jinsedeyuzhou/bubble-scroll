@@ -16,6 +16,7 @@ import cdflynn.android.library.scroller.ScrollerListener;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private List<Contact> contactList;
 
     static class Views {
         BubbleScroller scroller;
@@ -38,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViews = new Views(this);
-        List<Contact> contactList = Contact.mocks(this);
-        mContactScrollerAdapter = new ContactScrollerAdapter(contactList);
-        mContactAdapter = new ContactAdapter(this, contactList, mContactScrollerAdapter);
+        contactList = Contact.mocks(this);
+//        mContactScrollerAdapter = new ContactScrollerAdapter(contactList);
+        mContactAdapter = new ContactAdapter(this, contactList);
         mLayoutManager = new LinearLayoutManager(this);
         mViews.scroller.setScrollerListener(mScrollerListener);
-        mViews.scroller.setSectionScrollAdapter(mContactScrollerAdapter);
+//        mViews.scroller.setSectionScrollAdapter(mContactScrollerAdapter);
         mViews.recycler.setLayoutManager(mLayoutManager);
         mViews.recycler.setAdapter(mContactAdapter);
         mViews.scroller.showSectionHighlight(0);
@@ -55,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 final int firstVisibleItemPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-                mViews.scroller.showSectionHighlight(
-                        mContactScrollerAdapter.sectionFromPosition(firstVisibleItemPosition));
+//                mViews.scroller.showSectionHighlight(
+//                        mContactScrollerAdapter.sectionFromPosition(firstVisibleItemPosition));
             }
         });
     }
@@ -65,20 +66,37 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSectionClicked(int sectionPosition,String letter) {
             // 移动到首个
-            ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(mContactScrollerAdapter.positionFromSection(sectionPosition), 0);
-
-            mViews.recycler.smoothScrollToPosition(
-                    mContactScrollerAdapter.positionFromSection(sectionPosition));
+            for (int i=0;i<contactList.size();i++)
+            {
+                if (contactList.get(i).getFirstName().substring(0,1).equals(letter))
+                {
+                    ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(i, 0);
+                    return;
+                }
+            }
+//            ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(mContactScrollerAdapter.positionFromSection(sectionPosition), 0);
+//
+//            mViews.recycler.smoothScrollToPosition(
+//                    mContactScrollerAdapter.positionFromSection(sectionPosition));
             mProgrammaticScroll = true;
         }
 
         @Override
         public void onScrollPositionChanged(float percentage, int sectionPosition,String letter) {
             // 移动到首个
-            ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(mContactScrollerAdapter.positionFromSection(sectionPosition), 0);
-
-            mViews.recycler.smoothScrollToPosition(
-                    mContactScrollerAdapter.positionFromSection(sectionPosition));
+            for (int i=0;i<contactList.size();i++)
+            {
+                if (contactList.get(i).getFirstName().substring(0,1).equals(letter))
+                {
+                    ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(i, 0);
+                    return;
+                }
+            }
+            // 移动到首个
+//            ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(mContactScrollerAdapter.positionFromSection(sectionPosition), 0);
+//
+//            mViews.recycler.smoothScrollToPosition(
+//                    mContactScrollerAdapter.positionFromSection(sectionPosition));
             mProgrammaticScroll = true;
         }
     };
