@@ -626,7 +626,7 @@ public class BubbleScroller extends View {
             return;
         }
 
-        mScrollerListener.onSectionClicked(sectionIndex);
+        mScrollerListener.onSectionClicked(sectionIndex,mAdapter.getSectionTitle(sectionIndex));
     }
 
     private void dispatchScrollPercentageChanged(float y) {
@@ -635,18 +635,18 @@ public class BubbleScroller extends View {
         }
 
         if (y <= mDrawableRect.top) {
-            mScrollerListener.onScrollPositionChanged(0, 0);
+            mScrollerListener.onScrollPositionChanged(0, 0,mAdapter.getSectionTitle(0));
             return;
         }
 
         if (y >= mDrawableRect.bottom) {
-            mScrollerListener.onScrollPositionChanged(1, mSectionCount - 1);
+            mScrollerListener.onScrollPositionChanged(1, mSectionCount - 1,mAdapter.getSectionTitle(1));
             return;
         }
 
         final float percentage = percentageProgressAtYPosition(y);
         final int sectionIndex = sectionIndexAtYPosition(y);
-        mScrollerListener.onScrollPositionChanged(percentage, sectionIndex);
+        mScrollerListener.onScrollPositionChanged(percentage, sectionIndex,mAdapter.getSectionTitle(sectionIndex));
     }
 
     private final GestureDetector.OnGestureListener mGestureListener = new GestureDetector.OnGestureListener() {

@@ -5,7 +5,7 @@ public interface ScrollerListener {
      * A section at {@code position} has been clicked.  You may wish to
      * update the scroll position to show that section.
      */
-    void onSectionClicked(int sectionPosition);
+    void onSectionClicked(int sectionPosition, String letter);
 
     /**
      * The scroll percentage has changed.  This is usually because the user is manually scrolling
@@ -14,5 +14,5 @@ public interface ScrollerListener {
      * @param percentage      The current percentage progress from start to end, 0 <= percentage <= 1
      * @param sectionPosition The section index associated with this progress
      */
-    void onScrollPositionChanged(float percentage, int sectionPosition);
+    void onScrollPositionChanged(float percentage, int sectionPosition, String letter);
 }

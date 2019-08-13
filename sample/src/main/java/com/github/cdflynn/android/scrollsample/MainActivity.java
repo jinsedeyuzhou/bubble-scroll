@@ -63,14 +63,20 @@ public class MainActivity extends AppCompatActivity {
 
     private final ScrollerListener mScrollerListener = new ScrollerListener() {
         @Override
-        public void onSectionClicked(int sectionPosition) {
+        public void onSectionClicked(int sectionPosition,String letter) {
+            // 移动到首个
+            ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(mContactScrollerAdapter.positionFromSection(sectionPosition), 0);
+
             mViews.recycler.smoothScrollToPosition(
                     mContactScrollerAdapter.positionFromSection(sectionPosition));
             mProgrammaticScroll = true;
         }
 
         @Override
-        public void onScrollPositionChanged(float percentage, int sectionPosition) {
+        public void onScrollPositionChanged(float percentage, int sectionPosition,String letter) {
+            // 移动到首个
+            ((LinearLayoutManager)  mViews.recycler.getLayoutManager()).scrollToPositionWithOffset(mContactScrollerAdapter.positionFromSection(sectionPosition), 0);
+
             mViews.recycler.smoothScrollToPosition(
                     mContactScrollerAdapter.positionFromSection(sectionPosition));
             mProgrammaticScroll = true;
